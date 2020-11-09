@@ -1,0 +1,28 @@
+{
+  "esclient": {
+    "apiVersion": "7.5",
+    "hosts": [{
+      "host": "localhost",
+      "__port": 8087
+    }]
+  },
+  "api": {
+    "services": {
+      "placeholder": {
+        "url": "http://localhost:8087/placeholder"
+      },
+      "libpostal": {
+        "url": "http://localhost:8087/libpostal"
+      },
+      "pip": {
+        "url": "http://localhost:8087/pip"
+      },
+      "interpolation": {
+        "url": "http://localhost:8087/interpolation"
+      }
+    }
+  },
+  "logger": {
+    "level": "debug"
+  }
+}
