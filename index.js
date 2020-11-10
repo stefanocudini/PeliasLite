@@ -4,11 +4,9 @@ const _ = require('lodash');
 const express = require('express');
 const bodyParser = require('body-parser');
 
-
 const HOST = 'localhost';
 const PORT = 8088;
 const PORT_SERVICES = 8087;
-
 
 const apiApp = require('pelias-api/app');
 
@@ -23,33 +21,37 @@ servicesApp.locals.parser = { address: new AddressParser() }
 servicesApp.get('/libpostal/parse', require('pelias-parser/server/routes/parse'))
 
 //ElasticSearch proxy
-servicesApp.all(/^\/pelias(.*)$/, (req, res)=> {
+servicesApp.post(/^\/pelias(.*)$/, (req, res)=> {
 	
 	let text = req.body.query.bool.must[0].match['name.default'].query;
 
-	console.log('ElasticSearch request', req.body)
+	console.log('ES REQUEST', text)
+	
+	function result(text) {
 
-	let hits = [hit(text),hit(text+' 2'),hit(text+' 3')];
-	let result = {
-	  "took" : 1,
-	  "timed_out" : false,
-	  "_shards" : {
-	    "total" : 1,
-	    "successful" : 1,
-	    "skipped" : 0,
-	    "failed" : 0
-	  },
-	  "hits" : {
-	    "total" : {
-	      "value" : hits.length,
-	      "relation" : "eq"
-	    },
-	    "max_score" : 1.0,
-	    "hits" : hits
-	  }
+		let hits = [hit(text),hit(text+' 2'),hit(text+' 3')];
+
+		return {
+		  "took" : 1,
+		  "timed_out" : false,
+		  "_shards" : {
+		    "total" : 1,
+		    "successful" : 1,
+		    "skipped" : 0,
+		    "failed" : 0
+		  },
+		  "hits" : {
+		    "total" : {
+		      "value" : hits.length,
+		      "relation" : "eq"
+		    },
+		    "max_score" : 1.0,
+		    "hits" : hits
+		  }
+		}
 	};
 
-	res.json(result);
+	res.json(result(text));
 
 });
 
@@ -78,10 +80,16 @@ function hit(name) {
         "_id" : "transit:stops:1::tte::stops"+name,
         "_score" : 1.0,
         "_source" : {
+          "name" : {
+            "default" : name
+          },
           "center_point" : {
             "lon" : 11.047358,
             "lat" : 46.078325
           },
+          "source" : "transit",
+          "source_id" : "1::tte::stops",
+          "layer" : "stops",
           "parent" : {
             "country" : [
               "Italy"
@@ -119,17 +127,7 @@ function hit(name) {
             "localadmin_a" : [
               null
             ]
-          },
-          "name" : {
-            "default" : [
-              name,
-              name+"28105z",
-              name+"Stop 28105z"
-            ]
-          },
-          "source" : "transit",
-          "source_id" : "1::tte::stops",
-          "layer" : "stops"
+          }
         }
       };
 }

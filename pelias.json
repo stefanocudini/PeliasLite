@@ -37,6 +37,6 @@
     }
   },
   "logger": {
-    "level": "debug"
+    "level": "info"
   }
 }
