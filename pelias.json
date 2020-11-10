@@ -20,20 +20,6 @@
       "interpolation": {
         "url": "http://localhost:8087/interpolation"
       }
-    },
-    "___services": {
-       "placeholder": {
-        "url": "http://localhost:4100"
-      },
-      "pip": {
-        "url": "http://localhost:4200"
-      },
-      "interpolation": {
-        "url": "http://localhost:4300"
-      },
-      "libpostal": {
-        "url": "http://localhost:4400"
-      }
     }
   },
   "logger": {

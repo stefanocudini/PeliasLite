@@ -1,20 +1,20 @@
 
 const http = require('http');
-const _ = require('lodash');
+
 const express = require('express');
 const bodyParser = require('body-parser');
+const _ = require('lodash');
+
+const apiApp = require('pelias-api/app');
+const AddressParser = require('pelias-parser/parser/AddressParser');
 
 const HOST = 'localhost';
 const PORT = 8088;
 const PORT_SERVICES = 8087;
 
-const apiApp = require('pelias-api/app');
-
 const servicesApp = express();
 
 servicesApp.use(bodyParser.json());
-
-const AddressParser = require('pelias-parser/parser/AddressParser');
 servicesApp.locals.parser = { address: new AddressParser() }
 //HACK from pelias-parser/server/...
 
@@ -77,7 +77,7 @@ function hit(name) {
 	return {
         "_index" : "pelias",
         "_type" : "_doc",
-        "_id" : "transit:stops:1::tte::stops"+name,
+        "_id" : "venue:venues:1::venues"+name,
         "_score" : 1.0,
         "_source" : {
           "name" : {
@@ -87,9 +87,9 @@ function hit(name) {
             "lon" : 11.047358,
             "lat" : 46.078325
           },
-          "source" : "transit",
-          "source_id" : "1::tte::stops",
-          "layer" : "stops",
+          "source" : "venue",
+          "source_id" : "1::tte::venues",
+          "layer" : "venue",
           "parent" : {
             "country" : [
               "Italy"
