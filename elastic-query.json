@@ -3,28 +3,24 @@
         "bool": {
             "must": [
                 {
-                    "match": {
-                        "name.default": {
-                            "analyzer": "peliasQuery",
-                            "boost": 1,
-                            "query": "povo",
-                            "cutoff_frequency": 0.01,
-                            "minimum_should_match": "1<-1 3<-25%"
+                    "constant_score": {
+                        "filter": {
+                            "multi_match": {
+                                "type": "phrase",
+                                "query": "pov",
+                                "fields": [
+                                    "name.default",
+                                    "name.it"
+                                ],
+                                "analyzer": "peliasQuery",
+                                "boost": 100,
+                                "slop": 3
+                            }
                         }
                     }
                 }
             ],
             "should": [
-                {
-                    "match_phrase": {
-                        "phrase.default": {
-                            "query": "povo",
-                            "boost": 1,
-                            "slop": 2,
-                            "analyzer": "peliasPhrase"
-                        }
-                    }
-                },
                 {
                     "function_score": {
                         "query": {
@@ -58,7 +54,7 @@
                                     "field": "population",
                                     "missing": 1
                                 },
-                                "weight": 2
+                                "weight": 3
                             }
                         ],
                         "score_mode": "first",

@@ -4,7 +4,7 @@
   "description": "minimal standalone instance of Pelias geocoder",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon ./index.js",
+    "start": "PELIAS_CONFIG=./pelias.json nodemon -e js,html,css,json ./index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": {
@@ -20,7 +20,7 @@
     "express": "^4.17.1",
     "js-yaml": "^3.14.0",
     "lodash": "^4.17.20",
-    "pelias-api": "file:pelias-api",
+    "pelias-api": "^5.20.0",
     "pelias-parser": "^1.57.0"
   }
 }

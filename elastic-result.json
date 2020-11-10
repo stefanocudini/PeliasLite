@@ -1,0 +1,80 @@
+{
+  "took" : 1,
+  "timed_out" : false,
+  "_shards" : {
+    "total" : 1,
+    "successful" : 1,
+    "skipped" : 0,
+    "failed" : 0
+  },
+  "hits" : {
+    "total" : {
+      "value" : 1,
+      "relation" : "eq"
+    },
+    "max_score" : 1.0,
+    "hits" : [
+      {
+        "_index" : "pelias",
+        "_type" : "_doc",
+        "_id" : "transit:stops:1::tte::stops",
+        "_score" : 1.0,
+        "_source" : {
+          "center_point" : {
+            "lon" : 11.047358,
+            "lat" : 46.078325
+          },
+          "parent" : {
+            "country" : [
+              "Italy"
+            ],
+            "country_id" : [
+              "85633253"
+            ],
+            "country_a" : [
+              "ITA"
+            ],
+            "macroregion" : [
+              "Trentino-Alto Adige/South Tyrol"
+            ],
+            "macroregion_id" : [
+              "404227499"
+            ],
+            "macroregion_a" : [
+              null
+            ],
+            "region" : [
+              "Trento"
+            ],
+            "region_id" : [
+              "85685277"
+            ],
+            "region_a" : [
+              "TN"
+            ],
+            "localadmin" : [
+              "Trento"
+            ],
+            "localadmin_id" : [
+              "404471703"
+            ],
+            "localadmin_a" : [
+              null
+            ]
+          },
+          "name" : {
+            "default" : [
+              "Baselga Del Bondone (trentino trasporti esercizio Stop ID 28105z)",
+              "28105z",
+              "Stop 28105z",
+              "28105z stop"
+            ]
+          },
+          "source" : "transit",
+          "source_id" : "1::tte::stops",
+          "layer" : "stops"
+        }
+      }
+    ]
+  }
+}

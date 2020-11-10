@@ -1,68 +1,135 @@
-/*
-const express = require('express');
-//const https = require('https');
 
-var app = express();
-var server = app.listen(PORT, function () {
-   console.log("Listening on port ", PORT);
-})
-*/
+const http = require('http');
 const _ = require('lodash');
 const express = require('express');
 const bodyParser = require('body-parser');
 
+
+const HOST = 'localhost';
 const PORT = 8088;
 const PORT_SERVICES = 8087;
 
-const HOST = 'localhost';
 
 const apiApp = require('pelias-api/app');
 
-
-
 const servicesApp = express();
+
+servicesApp.use(bodyParser.json());
 
 const AddressParser = require('pelias-parser/parser/AddressParser');
 servicesApp.locals.parser = { address: new AddressParser() }
-
-servicesApp.use((req, res, next) => {
-  //res.header('Charset', 'utf8')
-  console.log('[parser] request', req.method, req.url)
-  next();
-});
-
-servicesApp.use(bodyParser.urlencoded({ extended: true }));
-
+//HACK from pelias-parser/server/...
 
 servicesApp.get('/libpostal/parse', require('pelias-parser/server/routes/parse'))
 
-//example POST /pelias/_search?search_type=dfs_query_then_fetch HTTP/1.1
-servicesApp.post('/pelias_search', (req, res)=> {
-
+//ElasticSearch proxy
+servicesApp.all(/^\/pelias(.*)$/, (req, res)=> {
+	
 	let text = req.body.query.bool.must[0].match['name.default'].query;
 
-	console.log('PELIAS', req.body)
+	console.log('ElasticSearch request', req.body)
 
-	//TODO pass to 3rd party search API
+	let hits = [hit(text),hit(text+' 2'),hit(text+' 3')];
+	let result = {
+	  "took" : 1,
+	  "timed_out" : false,
+	  "_shards" : {
+	    "total" : 1,
+	    "successful" : 1,
+	    "skipped" : 0,
+	    "failed" : 0
+	  },
+	  "hits" : {
+	    "total" : {
+	      "value" : hits.length,
+	      "relation" : "eq"
+	    },
+	    "max_score" : 1.0,
+	    "hits" : hits
+	  }
+	};
+
+	res.json(result);
+
 });
 
 const serverParser = servicesApp.listen(PORT_SERVICES, HOST, () => {
-	console.log('[parser] listening on %s:%s', HOST, PORT_SERVICES)
+	console.log('[PARSER-LITE-SERVICES] listening on %s:%s', HOST, PORT_SERVICES)
 	process.on('SIGTERM', () => {
-		console.error('[parser] closing...')
+		console.error('[PARSER-LITE-SERVICES] closing...')
 		serverParser.close();
 	});
 });
 
 const serverApi = apiApp.listen( PORT, HOST, () => {
-	console.log('[api] listening on %s:%s', HOST, PORT)
+	console.log('[PELIAS-LITE] listening on %s:%s', HOST, PORT)
 	process.on('SIGTERM', () => {
-		console.error('[api] closing...')
+		console.error('[PELIAS-LITE] closing...')
 		serverApi.close();
 	});
 });
 
-servicesApp.use('/test', express.static('public', {
-//	maxAge: 1000*60*60*24*30*3,//in milliseconds, 3 months
-//	etag: false
-}));
+servicesApp.use('/test', express.static('public'));
+
+function hit(name) {
+	return {
+        "_index" : "pelias",
+        "_type" : "_doc",
+        "_id" : "transit:stops:1::tte::stops"+name,
+        "_score" : 1.0,
+        "_source" : {
+          "center_point" : {
+            "lon" : 11.047358,
+            "lat" : 46.078325
+          },
+          "parent" : {
+            "country" : [
+              "Italy"
+            ],
+            "country_id" : [
+              "85633253"
+            ],
+            "country_a" : [
+              "ITA"
+            ],
+            "macroregion" : [
+              "Trentino-Alto Adige/South Tyrol"
+            ],
+            "macroregion_id" : [
+              "404227499"
+            ],
+            "macroregion_a" : [
+              null
+            ],
+            "region" : [
+              "Bolzano"
+            ],
+            "region_id" : [
+              "85685271"
+            ],
+            "region_a" : [
+              "BZ"
+            ],
+            "localadmin" : [
+              "Bolzano"
+            ],
+            "localadmin_id" : [
+              "404473063"
+            ],
+            "localadmin_a" : [
+              null
+            ]
+          },
+          "name" : {
+            "default" : [
+              name,
+              name+"28105z",
+              name+"Stop 28105z"
+            ]
+          },
+          "source" : "transit",
+          "source_id" : "1::tte::stops",
+          "layer" : "stops"
+        }
+      };
+}
