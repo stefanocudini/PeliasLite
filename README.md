@@ -5,7 +5,7 @@ minimal standalone instance of Pelias geocoder
 ## usage
 
 ```bash
-npm i
+npm install
 
 npm start
 ```
