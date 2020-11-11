@@ -23,35 +23,14 @@ servicesApp.get('/libpostal/parse', require('pelias-parser/server/routes/parse')
 //ElasticSearch proxy
 servicesApp.post(/^\/pelias(.*)$/, (req, res)=> {
 	
-	let text = req.body.query.bool.must[0].match['name.default'].query;
+  console.log('ES REQUEST', JSON.stringify(req.body,null,4))
+  
+	let q_search = _.get(req.body, "query.bool.must[0].match['name.default'].query");
+  let q_autocomplete = _.get(req.body, "query.bool.must[0].constant_score.filter.multi_match.query");
 
-	console.log('ES REQUEST', text)
+  q = q_search || q_autocomplete;
 	
-	function result(text) {
-
-		let hits = [hit(text),hit(text+' 2'),hit(text+' 3')];
-
-		return {
-		  "took" : 1,
-		  "timed_out" : false,
-		  "_shards" : {
-		    "total" : 1,
-		    "successful" : 1,
-		    "skipped" : 0,
-		    "failed" : 0
-		  },
-		  "hits" : {
-		    "total" : {
-		      "value" : hits.length,
-		      "relation" : "eq"
-		    },
-		    "max_score" : 1.0,
-		    "hits" : hits
-		  }
-		}
-	};
-
-	res.json(result(text));
+  res.json(result(q));
 
 });
 
@@ -72,6 +51,30 @@ const serverApi = apiApp.listen( PORT, HOST, () => {
 });
 
 servicesApp.use('/test', express.static('public'));
+
+function result(text) {
+
+  let hits = [hit(text),hit(text+' 2'),hit(text+' 3')];
+
+  return {
+    "took" : 1,
+    "timed_out" : false,
+    "_shards" : {
+      "total" : 1,
+      "successful" : 1,
+      "skipped" : 0,
+      "failed" : 0
+    },
+    "hits" : {
+      "total" : {
+        "value" : hits.length,
+        "relation" : "eq"
+      },
+      "max_score" : 1.0,
+      "hits" : hits
+    }
+  };
+}
 
 function hit(name) {
 	return {
