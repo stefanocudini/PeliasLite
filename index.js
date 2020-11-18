@@ -55,6 +55,9 @@ servicesApp.use('/test', express.static('public'));
 function result(text) {
 
   let hits = [hit(text),hit(text+' 2'),hit(text+' 3')];
+	//SAMPLE DATA
+	
+	//HERE connect to custom CSV or other DATABASE different from ELASTICSEARCH
 
   return {
     "took" : 1,
