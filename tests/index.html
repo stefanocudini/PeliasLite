@@ -1,0 +1,58 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN">
+<html>
+<head>
+  <title>PeliasLite Testing Map</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <link href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css" rel="stylesheet" type="text/css" />
+  <link href="https://unpkg.com/leaflet-search@3.0.3/dist/leaflet-search.min.css" rel="stylesheet" type="text/css" />
+  <style>
+    body {
+      padding: 0;
+      margin: 0;
+    }
+  #map {
+    width: 70%;
+    height: 600px;
+  }
+  #code {
+    position: fixed;
+    right: 5px;
+    top: 0;
+    width: 30%;
+    min-height: 600px;
+    background: #ddd;
+    font-size: small;
+    display: block;
+    z-index: 1000;
+  }
+  </style>
+</head>
+<body>
+  <div id="map"></div>
+  <script src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js"></script>
+  <script src="https://unpkg.com/leaflet-search@3.0.3/dist/leaflet-search.src.js"></script>
+  <script>
+
+  const baseUrl = location.origin+ '/v1/autocomplete';
+
+  const map = L.map('map').setView([46.672623,11.159704], 10);
+
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+
+  map.addControl(window.SEARCH = new L.Control.Search({
+    //markerLocation: true,
+    propertyName: 'properties.label',
+    propertyLoc: ['geometry.coordinates.1','geometry.coordinates.0'],
+    sourceData: (text, callResponse) => {
+      var url = `${baseUrl}?text=${text}`
+      return fetch(url)
+        .then(response => response.json())
+        .then(data => {
+          console.log(data.features)
+          callResponse(data.features);
+        });
+    }
+  }));
+  </script>
+</body>
+</html>

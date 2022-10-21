@@ -1,0 +1,60 @@
+environments:
+  default: prod
+#default environment if NODE_ENV is not defined
+
+prod:
+  listen_port: 8088
+dev:
+  listen_port: 9088
+  min_text_length: 1
+
+cors:
+  origin: '*'
+  optionsSuccessStatus: 200
+  #some legacy browsers (IE11, various SmartTVs) choke on 2
+
+#TODO cache_ttl: 0
+default_lang: 'en'
+min_text_length: 3
+
+endpoints:
+  default:
+    hostname: tourism.opendatahub.bz.it
+    method: GET
+    port: 443
+    #hostname: localhost
+    #port: 9090
+    size: 5
+    #method: 'GET'
+    headers:
+      User-Agent: PeliasLite
+      Referer: https://journey.opendatahub.bz.it
+    layer: venue
+
+  # here:
+  #   appId: ${HERE_APPID}
+  #   appCode: ${HERE_APPCODE}
+  #   apiKey: ${HERE_APIKEY}
+  #   layer: address
+  #   boundary:
+  #     rect:
+  #       minLon: 10.470121
+  #       maxLon: 12.255011
+  #       minLat: 46.188280
+  #       maxLat: 47.088780
+
+  opentripplanner:
+    hostname: ${OTP_HOST}
+    #hostname: localhost
+    # docs  http://dev.opentripplanner.org/apidoc/1.4.0/resource_GeocoderResource.html
+    path: /otp/routers/default/geocode?query={{text}}
+    port: ${OTP_PORT}
+    layer: stops
+
+  accommodations:
+    path: /v1/Accommodation?searchfilter={{text}}&pagesize={{size}}&language={{lang}}&poitype=447&active=true&fields=Id,AccoDetail.{{lang}}.Name,Latitude,Longitude
+    layer: venue
+
+  ODHActivityPoi:
+    path: /v1/ODHActivityPoi/?searchfilter={{text}}&pagesize={{size}}&language={{lang}}&poitype=447&active=true&fields=Id,Detail.{{lang}}.Title,GpsInfo
+    layer: venue

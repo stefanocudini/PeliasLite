@@ -1,10 +1,7 @@
-FROM node:12.18.2-alpine3.11
+FROM node:16.14.0-alpine3.14
 
 WORKDIR /home
 
-COPY ./ ./
+COPY ./src ./
 
-RUN npm install
-
-EXPOSE 8089
 CMD ["node", "index.js"]

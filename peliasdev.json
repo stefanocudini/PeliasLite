@@ -3,22 +3,22 @@
     "apiVersion": "7.5",
     "hosts": [{
       "host": "localhost",
-      "port": 8088
+      "port": 9088
     }]
   },
   "api": {
     "services": {
       "libpostal": {
-        "url": "http://localhost:8088/libpostal"
+        "url": "http://localhost:9088/libpostal"
       },
       "placeholder": {
-        "url": "http://localhost:8088/placeholder"
+        "url": "http://localhost:9088/placeholder"
       },
       "pip": {
-        "url": "http://localhost:8088/pip"
+        "url": "http://localhost:9088/pip"
       },
       "interpolation": {
-        "url": "http://localhost:8088/interpolation"
+        "url": "http://localhost:9088/interpolation"
       }
     }
   },
