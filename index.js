@@ -4,7 +4,9 @@ const {app, config, express, _} = require(resolve(__dirname,'./lib'));
 
 const {formatters, services, combineResults, textDistance, orderResult} = require('./utils')(config, _);
 
-process.env.PELIAS_CONFIG = `${__dirname}/pelias${config.envId}.json`;
+let envId = config.envId || '';
+
+process.env.PELIAS_CONFIG = `${__dirname}/pelias${envId}.json`;
 console.log('PELIAS_CONFIG file:', process.env.PELIAS_CONFIG);
 
 //PATCH for pelias-api that require this file

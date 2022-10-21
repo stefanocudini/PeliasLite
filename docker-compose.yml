@@ -18,9 +18,9 @@ services:
     build:
       context: ./
     environment:
-      OTP_HOST: otp
-      OTP_PATH: /otp/routers/openmove
-      OTP_PORT: 8080
+      API_HOST: otp
+      API_PATH: /otp/routers/openmove
+      API_PORT: 8080
       HERE_APPID: ''
       HERE_APPCODE: ''
       HERE_APIKEY: ''
