@@ -1,6 +1,6 @@
 # PeliasLite
 
-minimal standalone interface of Pelias geocoder
+Minimal Single Service Interface of Pelias Geocoder in Nodejs
 
 ## Use Cases
 
