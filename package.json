@@ -1,11 +1,11 @@
 {
-  "name": "pelias-lite-geocoder",
-  "version": "3.0.0",
-  "description": "minimal standalone instance of Pelias geocoder",
+  "name": "peliaslite",
+  "version": "0.1.0",
+  "description": "Minimal Single Service Interface of Pelias Geocoder in Nodejs",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "dev": "NODE_ENV=dev nodemon -e js,html,css,json,yml,.env ./index.js"
+    "dev": "NODE_ENV=dev nodemon -e js,json,yml,.env ./index.js"
   },
   "author": "Stefano Cudini <stefano.cudini@gmail.com>",
   "license": "MIT",
