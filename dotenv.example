@@ -1,0 +1,6 @@
+#
+#rename this file in .env
+#
+API_HOST=http://localhost
+API_PATH=/otp/routers/default
+API_PORT=8080
