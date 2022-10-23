@@ -23,4 +23,8 @@ npm install
 npm start
 ```
 
+```bash
+docker-compose up
+```
+
 browse: http://localhost:8087/test
