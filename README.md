@@ -23,6 +23,13 @@ npm install
 npm start
 ```
 
+development mode
+
+```bash
+npm run dev
+```
+
+via Docker
 ```bash
 docker-compose up
 ```
