@@ -38,10 +38,9 @@ browse: http://localhost:8087/test
 
 ## configuration
 
-environments:
-  default: prod
-#default environment if NODE_ENV is not defined
+config.yml
 
+```yaml
 prod:
   listen_port: 8088
 dev:
@@ -51,9 +50,7 @@ dev:
 cors:
   origin: '*'
   optionsSuccessStatus: 200
-  #some legacy browsers (IE11, various SmartTVs) choke on 2
 
-#TODO cache_ttl: 0
 default_lang: 'en'
 min_text_length: 3
 
@@ -69,10 +66,7 @@ endpoints:
     layer: venue
 
   opentripplanner:
-    #TODO enabled: false
     hostname: ${OTP_HOST}
-    #hostname: localhost
-    # docs  http://dev.opentripplanner.org/apidoc/1.4.0/resource_GeocoderResource.html
     path: /otp/routers/default/geocode?query={{text}}
     port: ${OTP_PORT}
     layer: stops
