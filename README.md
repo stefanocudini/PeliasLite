@@ -12,8 +12,6 @@ Minimal Single Service Interface of Pelias Geocoder in Nodejs
 
 - **Light instance:** you have very limited resources available and you want to use a single docker container but still have the complete Pelias rest api
 
-- **Many others:** contribute to extend the usage scenarios.
-
 
 ## usage
 
