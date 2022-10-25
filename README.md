@@ -54,7 +54,7 @@ min_text_length: 3
 
 endpoints:
   default:
-    hostname: tourism.opendatahub.bz.it
+    hostname: remote.geocoder.com
     method: GET
     port: 443
     size: 5
@@ -64,9 +64,8 @@ endpoints:
     layer: venue
 
   opentripplanner:
-    hostname: ${OTP_HOST}
+    hostname: opentripplanner.org
     path: /otp/routers/default/geocode?query={{text}}
-    port: ${OTP_PORT}
     layer: stops
   
   ...other datasources...
