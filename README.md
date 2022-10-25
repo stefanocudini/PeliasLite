@@ -36,19 +36,9 @@ browse: http://localhost:8087/test
 
 ## configuration
 
-config.yml
+example of config.yml
 
 ```yaml
-prod:
-  listen_port: 8088
-dev:
-  listen_port: 9088
-  min_text_length: 1
-
-cors:
-  origin: '*'
-  optionsSuccessStatus: 200
-
 default_lang: 'en'
 min_text_length: 3
 
