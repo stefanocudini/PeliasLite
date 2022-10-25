@@ -12,6 +12,14 @@
   "devDependencies": {
     "nodemon": "^2.0.7"
   },
+  "keywords": [
+    "geocoding",
+    "geospatial",
+    "geocoder",
+    "geocoder-library",
+    "pelias",
+    "gis"
+  ],
   "dependencies": {
     "@stefcud/configyml": "^1.0.1",
     "dotenv": "^16.0.0",
