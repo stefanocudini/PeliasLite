@@ -31,6 +31,18 @@ endpoints:
       Referer: https://journey.opendatahub.bz.it
     layer: venue
 
+  # here:
+  #   appId: ${HERE_APPID}
+  #   appCode: ${HERE_APPCODE}
+  #   apiKey: ${HERE_APIKEY}
+  #   layer: address
+  #   boundary:
+  #     rect:
+  #       minLon: 10.470121
+  #       maxLon: 12.255011
+  #       minLat: 46.188280
+  #       maxLat: 47.088780
+
   opentripplanner:
     #TODO enabled: false
     hostname: ${OTP_HOST}
@@ -47,15 +59,3 @@ endpoints:
   ODHActivityPoi:
     path: /v1/ODHActivityPoi/?searchfilter={{text}}&pagesize={{size}}&language={{lang}}&poitype=447&active=true&fields=Id,Detail.{{lang}}.Title,GpsInfo
     layer: venue
-
-  # here:
-  #   appId: ${HERE_APPID}
-  #   appCode: ${HERE_APPCODE}
-  #   apiKey: ${HERE_APIKEY}
-  #   layer: address
-  #   boundary:
-  #     rect:
-  #       minLon: 10.470121
-  #       maxLon: 12.255011
-  #       minLat: 46.188280
-  #       maxLat: 47.088780
