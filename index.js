@@ -1,6 +1,10 @@
 
+const express = require('express')
+	, _ = require('lodash')
+    , cors = require('cors');
+
 const {resolve} = require('path');
-const {app, config, express, _} = require(resolve(__dirname,'./lib'));
+const {config} = require(resolve(__dirname,'./lib'));
 
 const {formatters, services, combineResults, textDistance, orderResult} = require('./utils')(config, _);
 
@@ -13,6 +17,14 @@ console.log('PELIAS_CONFIG file:', process.env.PELIAS_CONFIG);
 const AddressParser = require('pelias-parser/parser/AddressParser');
 const peliasParser = require('pelias-parser/server/routes/parse');
 const peliasApiApp = require('pelias-api/app');
+
+const app = express();
+
+app.use(cors(config.cors));
+
+if (config.envId == 'dev') {
+   app.set('json spaces', 2);
+}
 
 app.use(express.json());
 

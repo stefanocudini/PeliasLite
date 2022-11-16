@@ -7,7 +7,6 @@ const _ = require('lodash')
 
 const basepath = require.main.path //process.cwd() //path of module that includes this
     , {name, version} = require(`${basepath}/package.json`)
-    , serviceName = `service ${name} v${version}`
     , config = configyml({basepath});
 
 config.endpoints = _.mapValues(config.endpoints, conf => {
@@ -15,20 +14,9 @@ config.endpoints = _.mapValues(config.endpoints, conf => {
 });
 delete config.endpoints.default;
 
-const app = express();
-
-app.use(cors(config.cors));
-
-if (config.envId == 'dev') {
-   app.set('json spaces', 2);
-}
-
-console.log(`Starting ${serviceName}... ${version}\nConfig:\n`, config);
+console.log(`Starting ${name} v${version}...`)
+console.log(`Config:\n`, config);
 
 module.exports = {
-    app,
-    config,
-    //libs
-    express,
-    _
+    config
 };
