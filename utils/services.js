@@ -34,8 +34,9 @@ const heremap = {
 		return new Promise((resolve, reject) => {
 	        const req = https.request(url, res => {
 	            if (res.statusCode===401) {
-	                console.error(`Error to retrieve data, ${res.statusCode}`)
-	                return
+	                console.error(`[geocoder] error endpoint 'HERE', ${res.statusCode} ${res.statusMessage}`);
+                  reject(res.statusMessage)
+	                return;
 	            }
 	            var str = "";
 	            res.on('data', chunk => {
@@ -47,14 +48,14 @@ const heremap = {
 	                    resolve(data);
 	                }
 	                catch(err) {
-	                    console.error(`Error "${err}" to connect endpoint ${endpoint.hostname}${endpoint.path}`);
+	                    console.error(`[geocoder] error endpoint 'HERE' "${err}" to connect endpoint ${endpoint.hostname}${endpoint.path}`);
 	                    //reject(err)
 	                }
 	            });
 	        })
 	        .on('error', err => {
-	            console.error(`Error "${err.code}" to connect endpoint ${endpoint.hostname}${endpoint.path}`);
-	            //reject(err)
+	            console.error(`[geocoder] error endpoint 'HERE' "${err.code}" to connect endpoint ${endpoint.hostname}${endpoint.path}`);
+	            reject(err)
 	        })
 	        .end();
 	    });
